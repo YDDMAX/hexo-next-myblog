@@ -1,7 +1,7 @@
 ﻿---
 title: JAVA IO
 date: 2017-06-04 14:14:39
-tags: IO,JAVA
+tags: [IO,JAVA]
 categories: technology
 ---
 # 计算机IO
