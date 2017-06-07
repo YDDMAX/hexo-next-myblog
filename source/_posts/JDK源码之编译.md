@@ -11,7 +11,7 @@ rt.jar的全部源码在openjdk的jdk目录下，具体的路径是openjdk\jdk\s
 **实际上rt.jar因为操作系统的不同，所包含的class也会有所不同，这导致在一些特殊特性上JAVA不再是“一次编译，到处执行”。**
 **比如，在java7中，linux/unix下的jre支持``com.sun.java.swing.plaf.gtk.GTKLookAndFeel``**,但是windows就不支持。
 操作系统安装的JDK里面的src.zip不包含**sun.*包**，***sun.\***包在openjdk源码里面,具体的路径是：**jdk\src\share\classes**。
-
+src.zip除了缺少sun.*包，还缺少其他源代码，不过这些源代码都能在share目录和各操作系统对应目录下找到。
 openjdk的目录说明和源码下载参见：[openjdk目录][1]
 
 # 编译
