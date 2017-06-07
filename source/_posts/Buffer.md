@@ -18,7 +18,7 @@ categories: java
 
 JVM在需要通过操作系统调用完成IO操作，比如可以通过read系统调用完成文件的读取。read的原型是：``ssize_t read(int fd,void *buf,size_t nbytes)``，和其他的IO系统调用类似，一般需要缓冲区作为其中一个参数，该缓冲区要求是连续的。
 
-Buffer分为Direct和Heap两类，下面分别说明这两类buffer。
+Buffer分为Direct和Heap两类，下面分别说明这两类buffer。ddd
 ### Heap
 Heap类型的Buffer存在于JVM的堆上，这部分内存的回收与整理和普通的对象一样。Heap类型的Buffer对象都包含一个对应基本数据类型的数组域（比如：final **[] hb），数组才是Heap类型Buffer的底层缓冲区。
 但是Heap类型的Buffer作为缓冲区参数直接进行系统调用，主要因为下面两个原因。
