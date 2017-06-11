@@ -1,7 +1,8 @@
 ---
 title: openjdk之编译和debug
 date: 2017-06-11 23:53:55
-tags:
+tags: [openjdk,jvm]
+categories: jvm
 ---
 为了更好的学习JDK、HotSpot等源码，需要能debug JDK、HotSpot等源码。本文主要讲述，怎么编译openjdk并debug相关源码。
 在本文中，要编译的openjdk:[openjdk-7u40-fcs-src-b43-26_aug_2013.zip][1]
