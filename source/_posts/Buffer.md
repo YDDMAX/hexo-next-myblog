@@ -1,16 +1,16 @@
----
+﻿---
 title: Buffer
 date: 2017-06-08 00:13:07
 tags: [Buffer,java]
 categories: java
 ---
+
 本机环境：
 ``Linux  4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:33:37 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux``
-
 # Buffer
  Buffer的类图如下：
  
-![Buffer类图][1]
+![Buffer类图][2]
 
 除了Boolean，其他基本数据类型都有对应的Buffer，但是只有ByteBuffer才能和Channel交互。**只有ByteBuffer才能产生Direct的buffer**，其他数据类型的Buffer只能产生Heap类型的Buffer。ByteBuffer可以产生其他数据类型的视图Buffer，如果ByteBuffer本身是Direct的，**则产生的各视图Buffer也是Direct的**。
 
@@ -31,6 +31,7 @@ Heap类型的Buffer存在于JVM的堆上，这部分内存的回收与整理和�
 
 + 需要把数据从Heap类型的Buffer里面复制到临时创建的Direct的Buffer里面。
 + 可能产生大量的Buffer对象，从而提高GC的频率。**所以在IO操作时，可以通过重复利用Buffer进行优化。**
+
 ### Direct
 Direct类型的buffer，不存在于堆上，而是JVM通过malloc直接分配的一段连续的内存，这部分内存成为直接内存，JVM进行IO系统调用时使用的是直接内存作为缓冲区。
 ``-XX:MaxDirectMemorySize``，通过这个配置可以设置允许分配的最大直接内存的大小（MappedByteBuffer分配的内存不受此配置影响）。
@@ -271,7 +272,7 @@ MappedByteBuffer是通过mmap产生得到的缓冲区，这部分缓冲区是由
         att = null;
     }
 ```
-unsafe.allocateMemory()的源码在openjdk/src/openjdk/hotspot/src/share/vm/prims/unsafe.cpp中。具体的源码如下：
+``unsafe.allocateMemory()``的源码在openjdk/src/openjdk/hotspot/src/share/vm/prims/unsafe.cpp中。具体的源码如下：
 ```c
 UNSAFE_ENTRY(jlong, Unsafe_AllocateMemory(JNIEnv *env, jobject unsafe, jlong size))
   UnsafeWrapper("Unsafe_AllocateMemory");
@@ -295,4 +296,5 @@ UNSAFE_END
 JVM通过malloc分配得到连续的缓冲区，这部分缓冲区可以直接作为缓冲区参数进行操作系统调用。
 
 
-  [1]: http://oqxil93b6.bkt.clouddn.com/images/IO/buffer-calss.png
+  [1]: https://yddmax.github.io/2017/06/08/Buffer/
+  [2]: http://oqxil93b6.bkt.clouddn.com/images/IO/buffer-calss.png
