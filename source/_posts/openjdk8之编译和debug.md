@@ -1,63 +1,63 @@
----
-title: openjdk8Ö®±àÒëºÍdebug
+ï»¿---
+title: openjdk8ä¹‹ç¼–è¯‘å’Œdebug
 date: 2017-06-12 00:26:56
 tags: [openjdk,jvm]
 categories: jvm
 ---
-ÏµÍ³»·¾³Îªubuntu 16.04£¬uname -a:
+ç³»ç»Ÿç¯å¢ƒä¸ºubuntu 16.04ï¼Œuname -a:
 ```bash
 Linux ddy-Aspire-V5-573G 4.4.0-21-generic #37-Ubuntu SMP Mon Apr 18 18:33:37 UTC 2016 x86_64 x86_64 x86_64 GNU/Linux
 ```
-ÔÚ±¾ÎÄÖĞ£¬Òª±àÒëµÄopenjdk°æ±¾Îª:[openjdk-8u40-src-b25-10_feb_2015][1]¡£
-³¢ÊÔÁË±àÒë[openjdk-8-src-b132-03_mar_2014][2]£¬µ«ÊÇÊ§°Ü¡£ÍøÉÏËµ,ÒòÎªubuntu16.04½ÏĞÂ£¬µ«ÊÇ¸Ã°æ±¾µÄJDK½ÏÀÏ£¬ËùÒÔÊ§°Ü¡£
+åœ¨æœ¬æ–‡ä¸­ï¼Œè¦ç¼–è¯‘çš„openjdkç‰ˆæœ¬ä¸º:[openjdk-8u40-src-b25-10_feb_2015][1]ã€‚
+å°è¯•äº†ç¼–è¯‘[openjdk-8-src-b132-03_mar_2014][2]ï¼Œä½†æ˜¯å¤±è´¥ã€‚ç½‘ä¸Šè¯´,å› ä¸ºubuntu16.04è¾ƒæ–°ï¼Œä½†æ˜¯è¯¥ç‰ˆæœ¬çš„JDKè¾ƒè€ï¼Œæ‰€ä»¥å¤±è´¥ã€‚
 
-ÏÂÃæËµÃ÷±àÒëºÍdebug¹ı³Ì¡£
+ä¸‹é¢è¯´æ˜ç¼–è¯‘å’Œdebugè¿‡ç¨‹ã€‚
 
-# make°æ±¾
-OpenJDK8¿ÉÒÔÊ¹ÓÃ"config && make"±àÒë¹¹½¨£¬²»ÔÙÊ¹ÓÃAntºÍALT_ *»·¾³±äÁ¿À´ÅäÖÃ¹¹½¨¡£
-²»¹ıĞèÒªGNU make 3.81»ò¸üĞÂµÄ°æ±¾
-# °²×°Òıµ¼JDK
-ÎÒÊ¹ÓÃµÄÒıµ¼JDKÊÇ[jdk-7u76-linux-x64][3]¡£
+# makeç‰ˆæœ¬
+OpenJDK8å¯ä»¥ä½¿ç”¨"config && make"ç¼–è¯‘æ„å»ºï¼Œä¸å†ä½¿ç”¨Antå’ŒALT_ *ç¯å¢ƒå˜é‡æ¥é…ç½®æ„å»ºã€‚
+ä¸è¿‡éœ€è¦GNU make 3.81æˆ–æ›´æ–°çš„ç‰ˆæœ¬
+# å®‰è£…å¼•å¯¼JDK
+æˆ‘ä½¿ç”¨çš„å¼•å¯¼JDKæ˜¯[jdk-7u76-linux-x64][3]ã€‚
 ```bash
 java version "1.6.0_45"
 Java(TM) SE Runtime Environment (build 1.6.0_45-b06)
 Java HotSpot(TM) 64-Bit Server VM (build 20.45-b01, mixed mode)
 ```
 
-# °²×°±àÒë¹¤¾ßÀà¿â£º
+# å®‰è£…ç¼–è¯‘å·¥å…·ç±»åº“ï¼š
 
-°²×°gcc¡¢g++¡¢makeµÈ  
+å®‰è£…gccã€g++ã€makeç­‰  
 ``sudo apt-get install build-essential``
-°²×°XRender  
+å®‰è£…XRender  
 ``sudo apt-get install libxrender-dev``  
 ``sudo apt-get install xorg-dev`` 
-°²×°alsa  
+å®‰è£…alsa  
 ``sudo apt-get install libasound2-dev``
 Cups  
 ``sudo apt-get install libcups2-dev`` 
-°²×°ÁãËéµÄ¹¤¾ß°ü  
+å®‰è£…é›¶ç¢çš„å·¥å…·åŒ…  
 ``sudo apt-get install gawk zip libxtst-dev libxi-dev libxt-dev``
  
  
-# ½¨Á¢±àÒë½Å±¾
---with-boot-jdk£ºÖ¸¶¨Òıµ¼JDKËùÔÚÄ¿Â¼£¬ÒÔ·ÀÆäËû°²×°µÄJDKÓ°Ïì£¨±¾»úÉÏÒÔÇ°°²×°ÁËJDK8£¬²¢ÅäÖÃÁËJAVA_HOMEÖ¸ÏòJDK8£©£»
---with-target-bits£ºÖ¸¶¨±àÒë64Î»ÏµÍ³µÄJDK£»
+# å»ºç«‹ç¼–è¯‘è„šæœ¬
+--with-boot-jdkï¼šæŒ‡å®šå¼•å¯¼JDKæ‰€åœ¨ç›®å½•ï¼Œä»¥é˜²å…¶ä»–å®‰è£…çš„JDKå½±å“ï¼ˆæœ¬æœºä¸Šä»¥å‰å®‰è£…äº†JDK8ï¼Œå¹¶é…ç½®äº†JAVA_HOMEæŒ‡å‘JDK8ï¼‰ï¼›
+--with-target-bitsï¼šæŒ‡å®šç¼–è¯‘64ä½ç³»ç»Ÿçš„JDKï¼›
 
-Îª¿ÉÒÔ½øĞĞÔ´Âëµ÷ÊÔ£¬ÔÙÖ¸¶¨ÏÂÃæÈı¸ö²ÎÊı£º
---with-debug-level=slowdebug£ºÖ¸¶¨¿ÉÒÔÉú³É×î¶àµÄµ÷ÊÔĞÅÏ¢£»
---enable-debug-symbols ZIP_DEBUGINFO_FILES=0£ºÉú³Éµ÷ÊÔµÄ·ûºÅĞÅÏ¢£¬²¢ÇÒ²»Ñ¹Ëõ£»
-ÔÚopenjdkÄ¿Â¼ÏÂĞÂ½¨build.sh£¬ÄÚÈİÈçÏÂ:
+ä¸ºå¯ä»¥è¿›è¡Œæºç è°ƒè¯•ï¼Œå†æŒ‡å®šä¸‹é¢ä¸‰ä¸ªå‚æ•°ï¼š
+--with-debug-level=slowdebugï¼šæŒ‡å®šå¯ä»¥ç”Ÿæˆæœ€å¤šçš„è°ƒè¯•ä¿¡æ¯ï¼›
+--enable-debug-symbols ZIP_DEBUGINFO_FILES=0ï¼šç”Ÿæˆè°ƒè¯•çš„ç¬¦å·ä¿¡æ¯ï¼Œå¹¶ä¸”ä¸å‹ç¼©ï¼›
+åœ¨openjdkç›®å½•ä¸‹æ–°å»ºbuild.shï¼Œå†…å®¹å¦‚ä¸‹:
 ```bash
 cd openjdk  
 bash ./configure --with-target-bits=64 --with-boot-jdk=/usr/java/jdk1.7.0_80/ --with-debug-level=slowdebug --enable-debug-symbols ZIP_DEBUGINFO_FILES=0  
 make all ZIP_DEBUGINFO_FILES=0  
 ```
 
-# ±àÒë
-Ö´ĞĞ``./build.sh``
-±àÒëÍê³ÉÊÇÕâÑùµÄ£º
+# ç¼–è¯‘
+æ‰§è¡Œ``./build.sh``
+ç¼–è¯‘å®Œæˆæ˜¯è¿™æ ·çš„ï¼š
 ![openjdk8-compile-success.png][4]
-# ÓÃGDB²âÊÔÊÇ·ñÄÜdebug
+# ç”¨GDBæµ‹è¯•æ˜¯å¦èƒ½debug
 ```bash
 ddy@ddy-Aspire-V5-573G ~/openjdk-compile/openjdk-8u40-src-b25-10_feb_2015/openjdk/build/linux-x86_64-normal-server-slowdebug/jdk/bin $ ./java -version
 openjdk version "1.8.0-internal-debug"
@@ -116,10 +116,10 @@ Quit anyway? (y or n) y
 ddy@ddy-Aspire-V5-573G ~/openjdk-compile/openjdk-8u40-src-b25-10_feb_2015/openjdk/build/linux-x86_64-normal-server-slowdebug/jdk/bin $ 
 
 ```
-[openjdkÖ®±àÒë¾­³£³öÏÖµÄÎÊÌâ][5]
-[openjdk7µÄ±àÒëºÍdebug][6]
-±àÒëÖ÷Òª²Î¿¼£º[ubuntu14.04 ±àÒëopenjdk7][7]
-debugÖ÷Òª²Î¿¼£º[CentOSÉÏ±àÒëOpenJDK8Ô´Âë ÒÔ¼° ÔÚeclipseÉÏµ÷ÊÔHotSpotĞéÄâ»úÔ´Âë][8]
+[openjdkä¹‹ç¼–è¯‘ç»å¸¸å‡ºç°çš„é—®é¢˜][5]
+[openjdk7çš„ç¼–è¯‘å’Œdebug][6]
+ç¼–è¯‘ä¸»è¦å‚è€ƒï¼š[ubuntu14.04 ç¼–è¯‘openjdk7][7]
+debugä¸»è¦å‚è€ƒï¼š[CentOSä¸Šç¼–è¯‘OpenJDK8æºç  ä»¥åŠ åœ¨eclipseä¸Šè°ƒè¯•HotSpotè™šæ‹Ÿæœºæºç ][8]
 
 
   [1]: https://pan.baidu.com/s/1mhLHkc4
