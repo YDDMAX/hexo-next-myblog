@@ -4,7 +4,9 @@ date: 2017-06-12 14:21:58
 tags: [IO]
 ---
 FileChannel主要进行文件IO的操作，下面主要分析write()的整个过程，read()和write()是相同的。
-# 概要　
+
+# read()/write()　
+
 write()/read()时:
 
 + 如果传入的是DirectBuffer，则不需要进行数据复制，最后通过write系统调用完成IO。
@@ -14,7 +16,9 @@ write()/read()时:
 第二种情况，线程里有一个DirectBuffer池，使得DirectBuffer可以重复利用。这样不仅可以减小DirectBuffer的新建和释放开销，而且可以减小GC频率。这给我们以借鉴，我们在编写业务代码时页应该这样处理。**
 
 下面分析具体的源码。
-# 源码
+
+下面是源码：
+
 sun.nio.ch.FileChannelImpl.write()
 ```java
     public int write(ByteBuffer src) throws IOException {
@@ -163,5 +167,61 @@ Java_sun_nio_ch_FileDispatcherImpl_write0(JNIEnv *env, jclass clazz,
    __THROW.  */
 extern ssize_t write (int __fd, const void *__buf, size_t __n) __wur;
 ```
+
+#transferFrom/transferTo()
+
+transferFrom/transferTo，在IO时利用底层操作系统的对应特性进行IO，一般效率较高，比如在linux下可以通过sendFile()这一特性完成IO（[Zero  copy][1]）。
+
+这两个方法的具体实现，在不同的操作系统下是不同的，在linux下通过sendFile完成，在其他操作系统下通过操作系统所支持的高级特性进行传输。具体的逻辑是：
+
+1. 内核直接传输。
+2. 先map，然后再传输。
+3. 先read，再write，也就是普通的传输。
+
+
+下面是源码：
+```java
+ public long transferTo(long position, long count,
+                           WritableByteChannel target)
+        throws IOException
+    {
+        ensureOpen();
+        if (!target.isOpen())
+            throw new ClosedChannelException();
+        if (!readable)
+            throw new NonReadableChannelException();
+        if (target instanceof FileChannelImpl &&
+            !((FileChannelImpl)target).writable)
+            throw new NonWritableChannelException();
+        if ((position < 0) || (count < 0))
+            throw new IllegalArgumentException();
+        long sz = size();
+        if (position > sz)
+            return 0;
+        int icount = (int)Math.min(count, Integer.MAX_VALUE);
+        if ((sz - position) < icount)
+            icount = (int)(sz - position);
+
+        long n;
+
+        // Attempt a direct transfer, if the kernel supports it
+        //内核支持
+        if ((n = transferToDirectly(position, icount, target)) >= 0)
+            return n;
+
+        // Attempt a mapped transfer, but only to trusted channel types
+        //先map,再传输
+        if ((n = transferToTrustedChannel(position, icount, target)) >= 0)
+            return n;
+
+        // Slow path for untrusted targets
+        //先read，再write。也就是普通的传输
+        return transferToArbitraryChannel(position, icount, target);
+    }
+```
+
+
+
+  [1]: %E8%BF%9B%E8%A1%8CIO%E6%93%8D%E4%BD%9C%E6%97%B6%E6%95%88%E7%8E%87%E8%BE%83%E9%AB%98
 
 
